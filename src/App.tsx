@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
-import './index.css'
+import styles from './index.module.scss'
 import { quicksort, Step } from './sorting'
 import { Block, generateRandom, playStep, StateToColorMap } from './utils'
 
 function App() {
   const [array, setArray] = useState<Block[]>(generateRandom())
   const [isPlaying, setIsPlaying] = useState(false)
-  const sortingGeneratorRef = useRef<Generator<Step> | null>()
+  const sortingGeneratorRef = useRef<Generator<Step>>(quicksort(array))
 
   useEffect(() => {
-    if (isPlaying) {
-      const nextStep = sortingGeneratorRef.current?.next()
-      if (!nextStep?.done) {
+    if (isPlaying && sortingGeneratorRef.current) {
+      const nextStep = sortingGeneratorRef.current.next()
+      if (!nextStep.done) {
         const timeout = setTimeout(() => {
-          setArray(array => playStep(array, nextStep!.value))
+          setArray(array => playStep(array, nextStep.value))
         }, 1)
         return () => clearTimeout(timeout)
       } else setIsPlaying(false)
@@ -27,15 +27,17 @@ function App() {
           height: `${block.value}%`, background: StateToColorMap[block.state],
           flex: 1
         }} />)}</div>
-      <button onClick={() => {
-        setIsPlaying(false)
-        setArray(generateRandom)
-      }}>Generate Array</button>
-      <button onClick={() => {
-        sortingGeneratorRef.current = quicksort(array)
-        setIsPlaying(true)
-      }}>Sort</button>
-      <button onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? "Pause" : "Play"}</button>
+      <div className={styles.options}>
+        <button onClick={() => {
+          setIsPlaying(false)
+          const newArray = generateRandom()
+          setArray(newArray)
+          sortingGeneratorRef.current = quicksort(newArray)
+        }}>Generate Array</button>
+
+        <button onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? "Pause" : "Play"}</button>
+      </div>
+
     </div >
   )
 }

@@ -13,7 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 body {
   margin: 0;
   display: flex;
@@ -24,3 +23,19 @@ h1 {
   line-height: 1.1;
 }
 
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+
+  &:hover {
+    background-color: gray;
+    cursor: pointer;
+  }
+}
+
+.options {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+}
