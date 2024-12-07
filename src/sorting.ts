@@ -1,4 +1,4 @@
-import { Block } from "./App"
+import { Block } from "./utils"
 
 export interface Step {
     type: "swapping" | "swap" | "compareStart" | "compareEnd"

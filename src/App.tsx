@@ -1,49 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './index.css'
 import { quicksort, Step } from './sorting'
-import { generateRandom } from './utils'
-
-const playStep = (arr: Block[], step: Step) => {
-  const newarr = structuredClone(arr)
-  switch (step.type) {
-    case 'swapping':
-      newarr[step.firstIndex].state = 'swapping'
-      newarr[step.secondIndex].state = 'swapping'
-      break
-    case 'swap':
-      {
-        const temp = newarr[step.firstIndex]
-        newarr[step.firstIndex] = newarr[step.secondIndex]
-        newarr[step.secondIndex] = temp
-        newarr[step.firstIndex].state = "none"
-        newarr[step.secondIndex].state = "none"
-        break
-      }
-    case 'compareStart':
-      newarr[step.firstIndex].state = 'comparing'
-      newarr[step.secondIndex].state = 'comparing'
-      break
-    case 'compareEnd':
-      newarr[step.firstIndex].state = 'none'
-      newarr[step.secondIndex].state = 'none'
-  }
-  return newarr
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const States = ["none", "swapping", "comparing"] as const
-type State = (typeof States)[number]
-
-export interface Block {
-  state: State
-  value: number
-}
-
-const StateToColorMap: Record<State, string> = {
-  "comparing": "blue",
-  "none": "white",
-  "swapping": "green"
-} as const
+import { Block, generateRandom, playStep, StateToColorMap } from './utils'
 
 function App() {
   const [array, setArray] = useState<Block[]>(generateRandom())
