@@ -16,11 +16,9 @@ function App() {
           setArray(array => playStep(array, nextStep!.value))
         }, 1)
         return () => clearTimeout(timeout)
-      }
+      } else setIsPlaying(false)
     }
   }, [isPlaying, array])
-
-
 
   return (
     <div style={{ background: "black", minHeight: "100vh", minWidth: "100vw" }}>
@@ -37,8 +35,7 @@ function App() {
         sortingGeneratorRef.current = quicksort(array)
         setIsPlaying(true)
       }}>Sort</button>
-      <button onClick={() => setIsPlaying(false)}>Pause</button>
-      <button onClick={() => setIsPlaying(true)}>Play</button>
+      <button onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? "Pause" : "Play"}</button>
     </div >
   )
 }
