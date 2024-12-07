@@ -73,6 +73,4 @@ export function* quicksort(arr: Block[]): Generator<Step> {
         return pivot_spot + 1;
     }
     yield* quicksorter(0, newArr.length - 1);
-    console.log(newArr === arr.sort());
-
 }

@@ -1,12 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './index.css'
-import { bubbleSort, quicksort, Step } from './sorting'
-
-const generateRandom: () => Block[] = () => Array.from({ length: 100 }, () => Math.floor(Math.random() * 100)).map(value => ({
-  state: "none",
-  value
-}))
-
+import { quicksort, Step } from './sorting'
+import { generateRandom } from './utils'
 
 const playStep = (arr: Block[], step: Step) => {
   const newarr = structuredClone(arr)
@@ -16,12 +11,14 @@ const playStep = (arr: Block[], step: Step) => {
       newarr[step.secondIndex].state = 'swapping'
       break
     case 'swap':
-      const temp = newarr[step.firstIndex]
-      newarr[step.firstIndex] = newarr[step.secondIndex]
-      newarr[step.secondIndex] = temp
-      newarr[step.firstIndex].state = "none"
-      newarr[step.secondIndex].state = "none"
-      break
+      {
+        const temp = newarr[step.firstIndex]
+        newarr[step.firstIndex] = newarr[step.secondIndex]
+        newarr[step.secondIndex] = temp
+        newarr[step.firstIndex].state = "none"
+        newarr[step.secondIndex].state = "none"
+        break
+      }
     case 'compareStart':
       newarr[step.firstIndex].state = 'comparing'
       newarr[step.secondIndex].state = 'comparing'
@@ -33,6 +30,7 @@ const playStep = (arr: Block[], step: Step) => {
   return newarr
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const States = ["none", "swapping", "comparing"] as const
 type State = (typeof States)[number]
 
@@ -69,11 +67,14 @@ function App() {
   return (
     <div style={{ background: "black", minHeight: "100vh", minWidth: "100vw" }}>
       <div style={{ height: "500px", display: 'flex', alignItems: "flex-end" }}>
-        {array.map(block => <div style={{
+        {array.map((block, i) => <div key={i} style={{
           height: `${block.value}%`, background: StateToColorMap[block.state],
           flex: 1
         }} />)}</div>
-      <button onClick={() => setArray(generateRandom)}>Generate Array</button>
+      <button onClick={() => {
+        setIsPlaying(false)
+        setArray(generateRandom)
+      }}>Generate Array</button>
       <button onClick={() => {
         sortingGeneratorRef.current = quicksort(array)
         setIsPlaying(true)
