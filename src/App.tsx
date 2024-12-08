@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './index.module.scss'
-import { ALGOS, bubbleSort, quicksort, Step } from './sorting'
+import { ALGOS, bubbleSort, Step } from './sorting'
 import { Block, generateRandom, playStep, StateToColorMap } from './utils'
 import { motion } from "motion/react"
 
@@ -36,7 +36,7 @@ function App() {
           setIsPlaying(false)
           const newArray = generateRandom()
           setArray(newArray)
-          sortingGeneratorRef.current = quicksort(newArray)
+          sortingGeneratorRef.current = ALGOS[sortingAlgo](newArray)
         }}>Generate Array</button>
         <button onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? "Pause" : "Play"}</button>
         <label htmlFor='animate'>Animate</label> <input id="animate" type="checkbox" checked={animate} onChange={(e) => setAnimate(e.currentTarget.checked)} />
