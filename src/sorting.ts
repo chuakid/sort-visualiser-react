@@ -6,13 +6,17 @@ export interface Step {
     secondIndex: number
 }
 
+export const ALGOS = {
+    "bubblesort": bubbleSort,
+    "quicksort": quicksort
+} as const
+
 export function* bubbleSort(arr: Block[]): Generator<Step> {
     const newArr = structuredClone(arr)
     let swapped = true
     while (swapped) {
         swapped = false
         for (let i = 0; i < newArr.length - 1; i++) {
-
             if (yield* compare(newArr, i, i + 1)) {
                 swapped = true
                 yield* swap(newArr, i, i + 1)

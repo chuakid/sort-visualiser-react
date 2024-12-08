@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './index.module.scss'
-import { quicksort, Step } from './sorting'
+import { ALGOS, bubbleSort, quicksort, Step } from './sorting'
 import { Block, generateRandom, playStep, StateToColorMap } from './utils'
 
 function App() {
   const [array, setArray] = useState<Block[]>(generateRandom())
   const [isPlaying, setIsPlaying] = useState(false)
-  const sortingGeneratorRef = useRef<Generator<Step>>(quicksort(array))
+  const [sortingAlgo, setSortingAlgo] = useState<keyof typeof ALGOS>("bubblesort")
+  const sortingGeneratorRef = useRef<Generator<Step>>(bubbleSort(array))
 
   useEffect(() => {
-    if (isPlaying && sortingGeneratorRef.current) {
+    if (isPlaying) {
       const nextStep = sortingGeneratorRef.current.next()
       if (!nextStep.done) {
         const timeout = setTimeout(() => {
@@ -36,6 +37,13 @@ function App() {
         }}>Generate Array</button>
 
         <button onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? "Pause" : "Play"}</button>
+        <select value={sortingAlgo} onChange={(e) => {
+          const algo = e.currentTarget.value as keyof typeof ALGOS
+          setSortingAlgo(algo)
+          sortingGeneratorRef.current = ALGOS[algo](array)
+        }}>
+          {Object.keys(ALGOS).map(algo => <option key={algo} value={algo}>{algo}</option>)}
+        </select>
       </div>
 
     </div >
