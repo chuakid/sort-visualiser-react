@@ -1,6 +1,6 @@
 import { Step } from "./sorting"
 
-export const generateRandom: () => Block[] = () => Array.from({ length: 100 }, () => Math.floor(Math.random() * 100)).map((value, i) => ({
+export const generateRandom: (size: number) => Block[] = (size) => Array.from({ length: size }, () => Math.floor(Math.random() * 100)).map((value, i) => ({
     key: i,
     state: "none",
     value

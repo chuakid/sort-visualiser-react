@@ -5,12 +5,13 @@ import { Block, generateRandom, playStep, StateToColorMap } from './utils'
 import { motion } from "motion/react"
 
 function App() {
-  const [array, setArray] = useState<Block[]>(generateRandom())
+  const [size, setSize] = useState(100)
+  const [array, setArray] = useState<Block[]>(generateRandom(size))
   const [isPlaying, setIsPlaying] = useState(false)
   const [sortingAlgo, setSortingAlgo] = useState<keyof typeof ALGOS>("bubblesort")
   const sortingGeneratorRef = useRef<Generator<Step>>(bubbleSort(array))
   const [animate, setAnimate] = useState(true)
-  const [timer, setTimer] = useState(1000)
+  const [timer, setTimer] = useState(50)
 
   useEffect(() => {
     if (isPlaying) {
@@ -35,7 +36,7 @@ function App() {
       <div className={styles.options}>
         <button onClick={() => {
           setIsPlaying(false)
-          const newArray = generateRandom()
+          const newArray = generateRandom(size)
           setArray(newArray)
           sortingGeneratorRef.current = ALGOS[sortingAlgo](newArray)
         }}>Generate Array</button>
@@ -51,6 +52,14 @@ function App() {
         </select>
         <div style={{ border: "1px solid #eeeeee", padding: "8px" }}>
           <label>Time between steps: {timer}</label><input min={1} max={1000} step={1} type="range" onChange={e => setTimer(Number(e.currentTarget.value))} />
+        </div>
+        <div style={{ border: "1px solid #eeeeee", padding: "8px" }}>
+          <label>Array size: {size}</label><input min={1} max={1000} step={1} type="range" onChange={e => {
+            setSize(Number(e.currentTarget.value))
+            const newArray = generateRandom(Number(e.currentTarget.value))
+            setArray(newArray)
+            sortingGeneratorRef.current = ALGOS[sortingAlgo](newArray)
+          }} />
         </div>
       </div>
 
