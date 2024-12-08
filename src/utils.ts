@@ -1,6 +1,7 @@
 import { Step } from "./sorting"
 
-export const generateRandom: () => Block[] = () => Array.from({ length: 100 }, () => Math.floor(Math.random() * 100)).map(value => ({
+export const generateRandom: () => Block[] = () => Array.from({ length: 100 }, () => Math.floor(Math.random() * 100)).map((value, i) => ({
+    key: i,
     state: "none",
     value
 }))
@@ -37,6 +38,7 @@ const States = ["none", "swapping", "comparing"] as const
 export type State = (typeof States)[number]
 
 export interface Block {
+    key: number,
     state: State
     value: number
 }

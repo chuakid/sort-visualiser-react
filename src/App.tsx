@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import styles from './index.module.scss'
 import { ALGOS, bubbleSort, quicksort, Step } from './sorting'
 import { Block, generateRandom, playStep, StateToColorMap } from './utils'
+import { motion } from "motion/react"
 
 function App() {
   const [array, setArray] = useState<Block[]>(generateRandom())
   const [isPlaying, setIsPlaying] = useState(false)
   const [sortingAlgo, setSortingAlgo] = useState<keyof typeof ALGOS>("bubblesort")
   const sortingGeneratorRef = useRef<Generator<Step>>(bubbleSort(array))
+  const [animate, setAnimate] = useState(true)
 
   useEffect(() => {
     if (isPlaying) {
@@ -24,10 +26,11 @@ function App() {
   return (
     <div style={{ background: "black", minHeight: "100vh", minWidth: "100vw" }}>
       <div style={{ height: "500px", display: 'flex', alignItems: "flex-end" }}>
-        {array.map((block, i) => <div key={i} style={{
+        {array.map((block) => <motion.div layout={animate} key={block.key} style={{
           height: `${block.value}%`, background: StateToColorMap[block.state],
           flex: 1
-        }} />)}</div>
+        }} />)}
+      </div>
       <div className={styles.options}>
         <button onClick={() => {
           setIsPlaying(false)
@@ -35,8 +38,9 @@ function App() {
           setArray(newArray)
           sortingGeneratorRef.current = quicksort(newArray)
         }}>Generate Array</button>
-
         <button onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? "Pause" : "Play"}</button>
+        <label htmlFor='animate'>Animate</label> <input id="animate" type="checkbox" checked={animate} onChange={(e) => setAnimate(e.currentTarget.checked)} />
+
         <select value={sortingAlgo} onChange={(e) => {
           const algo = e.currentTarget.value as keyof typeof ALGOS
           setSortingAlgo(algo)
