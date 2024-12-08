@@ -12,8 +12,8 @@ export function* bubbleSort(arr: Block[]): Generator<Step> {
     while (swapped) {
         swapped = false
         for (let i = 0; i < newArr.length - 1; i++) {
-            yield* compare(newArr, i, i + 1)
-            if (newArr[i].value > newArr[i + 1].value) {
+
+            if (yield* compare(newArr, i, i + 1)) {
                 swapped = true
                 yield* swap(newArr, i, i + 1)
             }
