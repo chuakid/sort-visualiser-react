@@ -10,6 +10,7 @@ function App() {
   const [sortingAlgo, setSortingAlgo] = useState<keyof typeof ALGOS>("bubblesort")
   const sortingGeneratorRef = useRef<Generator<Step>>(bubbleSort(array))
   const [animate, setAnimate] = useState(true)
+  const [timer, setTimer] = useState(1000)
 
   useEffect(() => {
     if (isPlaying) {
@@ -17,11 +18,11 @@ function App() {
       if (!nextStep.done) {
         const timeout = setTimeout(() => {
           setArray(array => playStep(array, nextStep.value))
-        }, 1)
+        }, timer)
         return () => clearTimeout(timeout)
       } else setIsPlaying(false)
     }
-  }, [isPlaying, array])
+  }, [isPlaying, array, timer])
 
   return (
     <div style={{ background: "black", minHeight: "100vh", minWidth: "100vw" }}>
@@ -48,6 +49,9 @@ function App() {
         }}>
           {Object.keys(ALGOS).map(algo => <option key={algo} value={algo}>{algo}</option>)}
         </select>
+        <div style={{ border: "1px solid #eeeeee", padding: "8px" }}>
+          <label>Time between steps: {timer}</label><input min={1} max={1000} step={1} type="range" onChange={e => setTimer(Number(e.currentTarget.value))} />
+        </div>
       </div>
 
     </div >
