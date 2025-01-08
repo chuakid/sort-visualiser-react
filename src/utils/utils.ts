@@ -7,28 +7,21 @@ export const generateRandom: (size: number) => Block[] = (size) => Array.from({ 
 }))
 
 export const playStep = (arr: Block[], step: Step) => {
-    const newarr = structuredClone(arr)
+    const newarr: Block[] = arr.map(block => ({ ...block, state: "none" }))
     switch (step.type) {
-        case 'swapping':
-            newarr[step.firstIndex].state = 'swapping'
-            newarr[step.secondIndex].state = 'swapping'
-            break
         case 'swap':
             {
+                newarr[step.firstIndex].state = 'swapping'
+                newarr[step.secondIndex].state = 'swapping'
                 const temp = newarr[step.firstIndex]
                 newarr[step.firstIndex] = newarr[step.secondIndex]
                 newarr[step.secondIndex] = temp
-                newarr[step.firstIndex].state = "none"
-                newarr[step.secondIndex].state = "none"
                 break
             }
-        case 'compareStart':
+        case 'compare':
             newarr[step.firstIndex].state = 'comparing'
             newarr[step.secondIndex].state = 'comparing'
             break
-        case 'compareEnd':
-            newarr[step.firstIndex].state = 'none'
-            newarr[step.secondIndex].state = 'none'
     }
     return newarr
 }

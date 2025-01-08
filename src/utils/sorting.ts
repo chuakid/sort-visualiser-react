@@ -1,7 +1,7 @@
 import { Block } from "./utils"
 
 export interface Step {
-    type: "swapping" | "swap" | "compareStart" | "compareEnd"
+    type: "swap" | "compare"
     firstIndex: number
     secondIndex: number
 }
@@ -32,11 +32,6 @@ function* swap(newarr: Block[], a: number, b: number): Generator<Step> {
     newarr[a] = newarr[b]
     newarr[b] = temp
     yield {
-        type: "swapping",
-        firstIndex: a,
-        secondIndex: b
-    }
-    yield {
         type: "swap",
         firstIndex: a,
         secondIndex: b
@@ -45,15 +40,11 @@ function* swap(newarr: Block[], a: number, b: number): Generator<Step> {
 
 function* compare(newarr: Block[], a: number, b: number): Generator<Step> {
     yield {
-        type: "compareStart",
+        type: "compare",
         firstIndex: a,
         secondIndex: b
     }
-    yield {
-        type: "compareEnd",
-        firstIndex: a,
-        secondIndex: b
-    }
+
     return newarr[a].value > newarr[b].value
 }
 function* quicksort(arr: Block[]) {

@@ -23,7 +23,10 @@ const Sorter = () => {
                     setArray(array => playStep(array, nextStep.value))
                 }, timer)
                 return () => clearTimeout(timeout)
-            } else setIsPlaying(false)
+            } else {
+                setIsPlaying(false)
+                setArray(arr => arr.map(block => ({ ...block, state: "none" })))
+            }
         }
     }, [isPlaying, array, timer])
 
