@@ -1,4 +1,4 @@
-import { Button, Checkbox, Container, Group, Select, Slider, Stack, Text, Title } from '@mantine/core'
+import { Anchor, Button, Checkbox, Container, Group, Select, Slider, Stack, Text, Title } from '@mantine/core'
 import { motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import ThemeSwitch from './components/ThemeSwitch'
@@ -40,7 +40,7 @@ const Sorter = () => {
                         flex: 1
                     }} />)}
             </div>
-            <Stack>
+            <Stack align='flex-start'>
                 <Title order={2}>Settings</Title>
                 <ThemeSwitch />
                 <Group>
@@ -56,7 +56,6 @@ const Sorter = () => {
                         checked={animate}
                         onChange={(e) => setAnimate(e.currentTarget.checked)} />
                 </Group>
-
                 <Select
                     label="Sorting Algorithm"
                     value={sortingAlgo}
@@ -67,13 +66,13 @@ const Sorter = () => {
                         setSortingAlgo(algo)
                         sortingGeneratorRef.current = ALGOS[algo](array)
                     }} />
-                <div>
+                <div style={{ alignSelf: "stretch" }}>
                     <Text>Time between steps: {timer}</Text>
                     <Slider
                         min={1} max={1000} step={1}
                         onChange={e => setTimer(e)} value={timer} />
                 </div>
-                <div>
+                <div style={{ alignSelf: "stretch" }}>
                     <Text>Size of array: {size}</Text>
                     <Slider
                         label={(size) => `Size of array: ${size}`}
@@ -89,7 +88,7 @@ const Sorter = () => {
                         }}
                     />
                 </div>
-
+                <Anchor href='https://github.com/chuakid/sort-visualiser-react'>Source</Anchor>
             </Stack>
 
         </Container >

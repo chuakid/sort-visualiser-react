@@ -24,7 +24,6 @@ function ThemeSwitch() {
     );
 
     return <Switch
-        style={{ width: "max-content" }}
         label="Theme"
         checked={colorScheme == "dark"}
         onChange={e => setColorScheme(e.currentTarget.checked ? "dark" : "light")}
