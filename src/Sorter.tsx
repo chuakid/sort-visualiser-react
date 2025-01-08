@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import ThemeSwitch from './components/ThemeSwitch'
 import styles from "./styles.module.scss"
-import { ALGOS, bubbleSort, Step } from './utils/sorting'
+import { ALGOS, Step } from './utils/sorting'
 import { Block, generateRandom, playStep } from './utils/utils'
 
 const Sorter = () => {
@@ -11,7 +11,7 @@ const Sorter = () => {
     const [array, setArray] = useState<Block[]>(generateRandom(size))
     const [isPlaying, setIsPlaying] = useState(false)
     const [sortingAlgo, setSortingAlgo] = useState<keyof typeof ALGOS>("Bubblesort")
-    const sortingGeneratorRef = useRef<Generator<Step>>(bubbleSort(array))
+    const sortingGeneratorRef = useRef<Generator<Step>>(ALGOS.Bubblesort(array))
     const [animate, setAnimate] = useState(true)
     const [timer, setTimer] = useState(50)
 
