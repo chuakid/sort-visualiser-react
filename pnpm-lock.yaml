@@ -20,6 +20,15 @@ importers:
       motion:
         specifier: ^11.13.1
         version: 11.13.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      postcss:
+        specifier: ^8.4.49
+        version: 8.4.49
+      postcss-preset-mantine:
+        specifier: ^1.17.0
+        version: 1.17.0(postcss@8.4.49)
+      postcss-simple-vars:
+        specifier: ^7.0.1
+        version: 7.0.1(postcss@8.4.49)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -51,15 +60,6 @@ importers:
       globals:
         specifier: ^15.12.0
         version: 15.13.0
-      postcss:
-        specifier: ^8.4.49
-        version: 8.4.49
-      postcss-preset-mantine:
-        specifier: ^1.17.0
-        version: 1.17.0(postcss@8.4.49)
-      postcss-simple-vars:
-        specifier: ^7.0.1
-        version: 7.0.1(postcss@8.4.49)
       sass-embedded:
         specifier: ^1.82.0
         version: 1.82.0
