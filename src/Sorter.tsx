@@ -10,7 +10,7 @@ const Sorter = () => {
     const [size, setSize] = useState(100)
     const [array, setArray] = useState<Block[]>(generateRandom(size))
     const [isPlaying, setIsPlaying] = useState(false)
-    const [sortingAlgo, setSortingAlgo] = useState<keyof typeof ALGOS>("bubblesort")
+    const [sortingAlgo, setSortingAlgo] = useState<keyof typeof ALGOS>("Bubblesort")
     const sortingGeneratorRef = useRef<Generator<Step>>(bubbleSort(array))
     const [animate, setAnimate] = useState(true)
     const [timer, setTimer] = useState(50)

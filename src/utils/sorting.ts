@@ -7,9 +7,9 @@ export interface Step {
 }
 
 export const ALGOS = {
-    "bubblesort": bubbleSort,
-    "quicksort": quicksort,
-    "Selection Sort": selectionSort
+    "Bubblesort": bubbleSort,
+    "Quicksort": quicksort,
+    "SelectionSort": selectionSort
 } as const
 
 export function* bubbleSort(arr: Block[]) {
