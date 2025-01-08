@@ -1,6 +1,7 @@
 import { Button, Checkbox, Container, Group, Select, Slider, Stack, Text, Title } from '@mantine/core'
 import { motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
+import ThemeSwitch from './components/ThemeSwitch'
 import styles from "./styles.module.scss"
 import { ALGOS, bubbleSort, Step } from './utils/sorting'
 import { Block, generateRandom, playStep } from './utils/utils'
@@ -41,6 +42,7 @@ const Sorter = () => {
             </div>
             <Stack>
                 <Title order={2}>Settings</Title>
+                <ThemeSwitch />
                 <Group>
                     <Button onClick={() => {
                         setIsPlaying(false)
