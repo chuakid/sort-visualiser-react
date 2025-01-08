@@ -1,4 +1,4 @@
-import { Button, Checkbox, Container, Group, Select, Slider, Stack, Title } from '@mantine/core'
+import { Button, Checkbox, Container, Group, Select, Slider, Stack, Text, Title } from '@mantine/core'
 import { motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import styles from "./styles.module.scss"
@@ -65,10 +65,14 @@ const Sorter = () => {
                         setSortingAlgo(algo)
                         sortingGeneratorRef.current = ALGOS[algo](array)
                     }} />
-                <Slider
-                    label={(timer) => `Time between steps: ${timer}`} min={1} max={1000} step={1}
-                    onChange={e => setTimer(e)} value={timer} />
-                <div style={{ border: "1px solid #eeeeee", padding: "8px" }}>
+                <div>
+                    <Text>Time between steps: {timer}</Text>
+                    <Slider
+                        min={1} max={1000} step={1}
+                        onChange={e => setTimer(e)} value={timer} />
+                </div>
+                <div>
+                    <Text>Size of array: {size}</Text>
                     <Slider
                         label={(size) => `Size of array: ${size}`}
                         min={1}
@@ -83,6 +87,7 @@ const Sorter = () => {
                         }}
                     />
                 </div>
+
             </Stack>
 
         </Container >
