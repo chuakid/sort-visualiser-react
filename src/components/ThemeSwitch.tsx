@@ -3,7 +3,7 @@ import { IconMoonStars, IconSun } from '@tabler/icons-react';
 
 function ThemeSwitch() {
     const theme = useMantineTheme();
-    const { setColorScheme } = useMantineColorScheme({
+    const { colorScheme, setColorScheme } = useMantineColorScheme({
         keepTransitions: true,
     })
 
@@ -26,6 +26,7 @@ function ThemeSwitch() {
     return <Switch
         style={{ width: "max-content" }}
         label="Theme"
+        checked={colorScheme == "dark"}
         onChange={e => setColorScheme(e.currentTarget.checked ? "dark" : "light")}
         size="md"
         color="dark.4"
