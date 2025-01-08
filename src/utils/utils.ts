@@ -42,9 +42,3 @@ export interface Block {
     state: State
     value: number
 }
-
-export const StateToColorMap: Record<State, string> = {
-    "comparing": "blue",
-    "none": "white",
-    "swapping": "green"
-} as const

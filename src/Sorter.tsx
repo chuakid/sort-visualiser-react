@@ -1,8 +1,9 @@
+import { Button, Checkbox, Container, Group, Select, Slider, Stack, Title } from '@mantine/core'
 import { motion } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
-import styles from "./index.module.scss"
-import { ALGOS, bubbleSort, Step } from './sorting'
-import { Block, generateRandom, playStep, StateToColorMap } from './utils'
+import styles from "./styles.module.scss"
+import { ALGOS, bubbleSort, Step } from './utils/sorting'
+import { Block, generateRandom, playStep } from './utils/utils'
 
 const Sorter = () => {
     const [size, setSize] = useState(100)
@@ -26,44 +27,65 @@ const Sorter = () => {
     }, [isPlaying, array, timer])
 
     return (
-        <div style={{ background: "black", minHeight: "100vh", minWidth: "100vw" }}>
+        <Container style={{ minHeight: "100vh", minWidth: "100vw" }}>
             <div style={{ height: "500px", display: 'flex', alignItems: "flex-end" }}>
-                {array.map((block) => <motion.div layout={animate} key={block.key} style={{
-                    height: `${block.value}%`, background: StateToColorMap[block.state],
-                    flex: 1
-                }} />)}
+                {array.map((block) => <
+                    motion.div
+                    className={styles[block.state]}
+                    layout={animate}
+                    key={block.key}
+                    style={{
+                        height: `${block.value}%`,
+                        flex: 1
+                    }} />)}
             </div>
-            <div className={styles.options}>
-                <button onClick={() => {
-                    setIsPlaying(false)
-                    const newArray = generateRandom(size)
-                    setArray(newArray)
-                    sortingGeneratorRef.current = ALGOS[sortingAlgo](newArray)
-                }}>Generate Array</button>
-                <button onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? "Pause" : "Play"}</button>
-                <label htmlFor='animate'>Animate</label> <input id="animate" type="checkbox" checked={animate} onChange={(e) => setAnimate(e.currentTarget.checked)} />
-
-                <select value={sortingAlgo} onChange={(e) => {
-                    const algo = e.currentTarget.value as keyof typeof ALGOS
-                    setSortingAlgo(algo)
-                    sortingGeneratorRef.current = ALGOS[algo](array)
-                }}>
-                    {Object.keys(ALGOS).map(algo => <option key={algo} value={algo}>{algo}</option>)}
-                </select>
-                <div style={{ border: "1px solid #eeeeee", padding: "8px" }}>
-                    <label>Time between steps: {timer}</label><input min={1} max={1000} step={1} type="range" onChange={e => setTimer(Number(e.currentTarget.value))} />
-                </div>
-                <div style={{ border: "1px solid #eeeeee", padding: "8px" }}>
-                    <label>Array size: {size}</label><input min={1} max={1000} step={1} type="range" onChange={e => {
-                        setSize(Number(e.currentTarget.value))
-                        const newArray = generateRandom(Number(e.currentTarget.value))
+            <Stack>
+                <Title order={2}>Settings</Title>
+                <Group>
+                    <Button onClick={() => {
+                        setIsPlaying(false)
+                        const newArray = generateRandom(size)
                         setArray(newArray)
                         sortingGeneratorRef.current = ALGOS[sortingAlgo](newArray)
-                    }} />
-                </div>
-            </div>
+                    }}>Generate Array</Button>
+                    <Button onClick={() => setIsPlaying(!isPlaying)}>{isPlaying ? "Pause" : "Play"}</Button>
+                    <Checkbox
+                        label="Animate"
+                        checked={animate}
+                        onChange={(e) => setAnimate(e.currentTarget.checked)} />
+                </Group>
 
-        </div >
+                <Select
+                    label="Sorting Algorithm"
+                    value={sortingAlgo}
+                    data={Object.keys(ALGOS)}
+                    onChange={(val) => {
+                        const algo = val as keyof typeof ALGOS
+                        if (!algo) return
+                        setSortingAlgo(algo)
+                        sortingGeneratorRef.current = ALGOS[algo](array)
+                    }} />
+                <Slider
+                    label={(timer) => `Time between steps: ${timer}`} min={1} max={1000} step={1}
+                    onChange={e => setTimer(e)} value={timer} />
+                <div style={{ border: "1px solid #eeeeee", padding: "8px" }}>
+                    <Slider
+                        label={(size) => `Size of array: ${size}`}
+                        min={1}
+                        max={1000}
+                        step={1}
+                        value={size}
+                        onChange={val => {
+                            setSize(val)
+                            const newArray = generateRandom(val)
+                            setArray(newArray)
+                            sortingGeneratorRef.current = ALGOS[sortingAlgo](newArray)
+                        }}
+                    />
+                </div>
+            </Stack>
+
+        </Container >
     )
 }
 
