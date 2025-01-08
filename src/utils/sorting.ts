@@ -8,10 +8,11 @@ export interface Step {
 
 export const ALGOS = {
     "bubblesort": bubbleSort,
-    "quicksort": quicksort
+    "quicksort": quicksort,
+    "Selection Sort": selectionSort
 } as const
 
-export function* bubbleSort(arr: Block[]): Generator<Step> {
+export function* bubbleSort(arr: Block[]) {
     const newArr = structuredClone(arr)
     let swapped = true
     while (swapped) {
@@ -54,7 +55,7 @@ function* compare(newarr: Block[], a: number, b: number): Generator<Step> {
     }
     return newarr[a].value > newarr[b].value
 }
-export function* quicksort(arr: Block[]): Generator<Step> {
+export function* quicksort(arr: Block[]) {
     const newArr = structuredClone(arr)
     function* quicksorter(low: number, high: number): Generator<Step> {
         if (low < high) {
@@ -77,4 +78,21 @@ export function* quicksort(arr: Block[]): Generator<Step> {
         return pivot_spot + 1;
     }
     yield* quicksorter(0, newArr.length - 1);
+}
+
+export function* selectionSort(arr: Block[]) {
+
+    for (let i = arr.length - 1; i >= 0; i--) {
+        let currentLargestIndex = 0
+        for (let j = 0; j <= i; j++) {
+            if (currentLargestIndex < 0) {
+                currentLargestIndex = j
+            } else {
+                if (yield* compare(arr, j, currentLargestIndex)) {
+                    currentLargestIndex = j
+                }
+            }
+        }
+        yield* swap(arr, i, currentLargestIndex)
+    }
 }
